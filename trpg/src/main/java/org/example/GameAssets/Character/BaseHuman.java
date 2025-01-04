@@ -3,12 +3,14 @@ package org.example.GameAssets.Character;
 public class BaseHuman {
     final String name;
     final String background;
+    final String accentInstruction;
     int age;
     int credits;
     int reputation;
     CharacterEquipmentSlot equipments;
     Weapon primaryWeapon;
     Weapon secondaryWeapon;
+    HealthType health;
 
     public BaseHuman(CharacterInformation info){
         this.name = info.getName();
@@ -19,6 +21,8 @@ public class BaseHuman {
         this.equipments = new CharacterEquipmentSlot();
         this.primaryWeapon = new Weapon(info.getPrimary());
         this.secondaryWeapon = new Weapon(info.getSecondary());
+        this.health = HealthType.NORMAL;
+        accentInstruction = info.getAccentInstruction();
     }
 
     public BaseHuman(String cName, int cAge, String cBackground){
@@ -30,6 +34,8 @@ public class BaseHuman {
         this.equipments = new CharacterEquipmentSlot();
         this.primaryWeapon = new Weapon(null);
         this.secondaryWeapon = new Weapon(null);
+        this.health = HealthType.NORMAL;
+        accentInstruction = "";
     }
 
     public String getReputationStatus() {
@@ -45,10 +51,45 @@ public class BaseHuman {
 
     public String showStatus(){
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("이름: ").append(name).append("/").append(
+                "건강상태: ").append(health.getMessage()).append("/").append(
+                "나이: ").append(age).append("/").append(
+                "자금: ").append(credits).append("/").append(
+                "명성: ").append(getReputationStatus()).append("\n");
+        if(primaryWeapon.isNull){
+            stringBuilder.append("무장 없음").append("\n");
+        } else {
+            stringBuilder.append("주무장: ").append(primaryWeapon.getInfo()).append("\n");
+            if(!secondaryWeapon.isNull){
+                stringBuilder.append("부무장: ").append(secondaryWeapon.getInfo()).append("\n");
+
+            }
+        }
+        stringBuilder.append(equipments.equipmentsDescription());
+
+        stringBuilder.append("배경: ").append(background);
+        stringBuilder.append("다음과 같은 말투를 구사해봐: ").append(accentInstruction).append('\n');
+        stringBuilder.append("단, 위의 말투는 참고만 하고, 실제 대화에 사용은 자제해.").append('\n');
+        return stringBuilder.toString();
+    }
+
+    public String showStatusForPlayer(){
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("이름: ").append(name).append("\n");
-        stringBuilder.append("나이: ").append(age).append("\t | \t").append("자금: ").append(credits).append("\t | \t").append("명성: ").append(getReputationStatus()).append("\n");
-        stringBuilder.append("주무장: ").append(primaryWeapon.getInfo()).append("\n");
-        stringBuilder.append("부무장: ").append(secondaryWeapon.getInfo()).append("\n");
+        stringBuilder.append("건강상태: ").append(health.getMessage()).append("\t | \t").append("" +
+                "나이: ").append(age).append("\t | \t").append(
+                "자금: ").append(credits).append("\t | \t").append(
+                "명성: ").append(getReputationStatus()).append("\n");
+        if(primaryWeapon.isNull){
+            stringBuilder.append("무장 없음").append("\n");
+        } else {
+            stringBuilder.append("주무장: ").append(primaryWeapon.getInfo()).append("\n");
+            if(!secondaryWeapon.isNull){
+                stringBuilder.append("부무장: ").append(secondaryWeapon.getInfo()).append("\n");
+
+            }
+        }
+        stringBuilder.append(equipments.equipmentsDescription()).append("\n");
         stringBuilder.append("- - - - - - - - - - - - - - - -\n");
         stringBuilder.append(background);
         return stringBuilder.toString();

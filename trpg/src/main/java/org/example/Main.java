@@ -11,18 +11,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BaseHuman Lucy = new BaseHuman(CharacterInformation.Lucy);
         System.out.println("==========================");
-        System.out.println(Lucy.showStatus());
+        System.out.println(Lucy.showStatusForPlayer());
         System.out.println("==========================");
 
         BaseHuman player = Player.generator();
         System.out.println("==========================");
-        System.out.println(player.showStatus());
+        System.out.println(player.showStatusForPlayer());
         System.out.println("==========================");
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("루시에게 뭐라고 말하시겠습니까?");

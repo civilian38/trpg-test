@@ -17,4 +17,9 @@ public class CharacterEquipment {
     public String getEquipmentName() {
         return equipmentName;
     }
+    public String getEquipmentDescription() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(equipmentName).append(" - ").append(equipmentDescription).append(" | 내구성 ").append(equipmentDurability).append(" / ").append(CharacterSettings.MAX_EQUIPMENT_DURABILITY);
+        return sb.toString();
+    }
 }

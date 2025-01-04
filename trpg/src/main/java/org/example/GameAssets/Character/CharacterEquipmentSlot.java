@@ -22,4 +22,17 @@ public class CharacterEquipmentSlot {
         }
         return false;
     }
+
+    public String equipmentsDescription(){
+        StringBuilder sb = new StringBuilder();
+        if(equipments.size() == 0){
+            sb.append("장착된 장비 없음");
+        } else {
+            int index = 1;
+            for(CharacterEquipment ce: equipments){
+                sb.append("장비 ").append(index++).append(": ").append(ce.getEquipmentDescription()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }

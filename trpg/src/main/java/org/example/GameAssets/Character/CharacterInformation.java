@@ -9,7 +9,8 @@ public enum CharacterInformation {
             51,
             HealthType.NORMAL,
             WeaponInformation.Lexington,
-            null
+            null,
+            "처음 보는 얼굴이네. 꼬치꼬치 캐묻진 않을게, 여긴 나이트 시티잖아. 넌 진짜 빈틈 투성이야. 교육이 필요하겠어."
     );
 
     private String name;
@@ -20,7 +21,8 @@ public enum CharacterInformation {
     private HealthType health;
     private WeaponInformation primary;
     private WeaponInformation secondary;
-    CharacterInformation(String cName, String cBackground, int cAge, int cCredits, int cReputation, HealthType cHealthType, WeaponInformation wPrimary, WeaponInformation wSecondary){
+    private String accentInstruction;
+    CharacterInformation(String cName, String cBackground, int cAge, int cCredits, int cReputation, HealthType cHealthType, WeaponInformation wPrimary, WeaponInformation wSecondary, String accentInstruction){
         this.name = cName;
         this.background = cBackground;
         this.age = cAge;
@@ -29,6 +31,7 @@ public enum CharacterInformation {
         this.health = cHealthType;
         this.primary = wPrimary;
         this.secondary = wSecondary;
+        this.accentInstruction = accentInstruction;
     }
 
     public String getName() {
@@ -51,5 +54,8 @@ public enum CharacterInformation {
     }
     public WeaponInformation getSecondary() {
         return secondary;
+    }
+    public String getAccentInstruction() {
+        return accentInstruction;
     }
 }
