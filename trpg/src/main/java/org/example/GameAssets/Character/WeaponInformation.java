@@ -1,21 +1,31 @@
 package org.example.GameAssets.Character;
 
 public enum WeaponInformation {
-    Libereator(
+    WEAPON_LIBERATOR(
             "리버레이터",
             120,
             "끝내주는 저격총입니다.",
             true
-    ), Queen (
+    ), WEAPON_HER_MAJESTY (
             "여왕폐하",
-            80,
-            "암살에 특화된 권총입니다. 최고급 소음기가 장착되어 있습니다",
+            40,
+            "소음기가 장착된 암살에 특화된 권총",
             true
-    ), Lexington (
+    ), WEAPON_LEXINGTON (
             "렉싱턴",
             20,
             "평범한 권총입니다",
             true
+    ), WEAPON_KONGOU (
+            "콩고",
+            35,
+            "세련된 디자인의 준수한 권총",
+            true
+    ), WEAPON_STINGER (
+            "스팅어",
+            30,
+            "가볍고 치명적인 한손검",
+            false
     );
 
     private String name;

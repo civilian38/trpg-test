@@ -5,6 +5,14 @@ import java.util.ArrayList;
 public class CharacterEquipmentSlot {
     private ArrayList<CharacterEquipment> equipments = new ArrayList<>();
 
+    public CharacterEquipmentSlot(EquipmentInformation[] equips){
+        for(EquipmentInformation ei: equips){
+            if(ei != null){
+                equipments.add(new CharacterEquipment(ei.getEquipmentName(), ei.getEquipmentDescription()));
+            }
+        }
+    }
+
     public boolean addEquipment(CharacterEquipment equipment){
         if(equipments.size() < CharacterSettings.MAX_EQUIPMENT_SLOTS){
             equipments.add(equipment);
@@ -32,6 +40,7 @@ public class CharacterEquipmentSlot {
             for(CharacterEquipment ce: equipments){
                 sb.append("장비 ").append(index++).append(": ").append(ce.getEquipmentDescription()).append("\n");
             }
+            sb.deleteCharAt(sb.lastIndexOf("\n"));
         }
         return sb.toString();
     }

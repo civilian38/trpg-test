@@ -13,28 +13,28 @@ public class BaseHuman {
     Weapon secondaryWeapon;
     HealthType health;
 
-    public BaseHuman(CharacterInformation info, int characterId){
+    public BaseHuman(CharacterInformation info, int characterId){   // npc constructor
         this.characterId = characterId;
         this.name = info.getName();
         this.background = info.getBackground();
         this.age = info.getAge();
         this.credits = info.getInitialCredits();
         this.reputation = info.getReputation();
-        this.equipments = new CharacterEquipmentSlot();
+        this.equipments = new CharacterEquipmentSlot(info.getEquipments());
         this.primaryWeapon = new Weapon(info.getPrimary());
         this.secondaryWeapon = new Weapon(info.getSecondary());
         this.health = info.getHealth();
         accentInstruction = info.getAccentInstruction();
     }
 
-    public BaseHuman(String cName, int cAge, String cBackground){
+    public BaseHuman(String cName, int cAge, String cBackground){   // player constructor
         this.characterId = CharacterSettings.PlayerId;
         this.name = cName;
         this.background = cBackground;
         this.age = cAge;
         this.credits = 0;
         this.reputation = 0;
-        this.equipments = new CharacterEquipmentSlot();
+        this.equipments = new CharacterEquipmentSlot(new EquipmentInformation[]{null, null, null});
         this.primaryWeapon = new Weapon(null);
         this.secondaryWeapon = new Weapon(null);
         this.health = HealthType.NORMAL;

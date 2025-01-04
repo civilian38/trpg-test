@@ -8,7 +8,10 @@ public enum CharacterInformation {
             2000,
             51,
             HealthType.NORMAL,
-            WeaponInformation.Lexington,
+            WeaponInformation.WEAPON_LEXINGTON,
+            null,
+            EquipmentInformation.EQUIPMENT_ARASAKA_CYBERDECK,
+            null,
             null,
             "처음 보는 얼굴이네. 꼬치꼬치 캐묻진 않을게, 여긴 나이트 시티잖아. 넌 진짜 빈틈 투성이야. 교육이 필요하겠어."
     ), ALEX_INFO(
@@ -18,9 +21,25 @@ public enum CharacterInformation {
             15000,
             60,
             HealthType.NORMAL,
-            WeaponInformation.Queen,
+            WeaponInformation.WEAPON_HER_MAJESTY,
+            null,
+            null,
+            null,
             null,
             "안녕, 연락해서 놀랐어? 모스에서 잠깐 볼까? NUS가 떠나려고 짐을 싸고 있어. 나도 그렇고. 마지막 임무만 남았는데, 널 제거하는거야."
+    ), REED_INFO(
+            "솔로몬 리드",
+            "솔로몬 리드는 연방 정보국(FIA)의 잠복 요원이자 NUSA 역사상 최고의 요원입니다. 전성기에는 모건 블랙핸드와 같은 전설적인 인물과 어깨를 나란히 할 정도였지만, 잠깐의 유명세를 얻어 트로피를 채우는 일에는 전혀 관심이 없었습니다. 리드 같은 사람은 개인적인 목표보다 더 거대한 목적을 추구하며, 리드에게는 그것이 국가를 위해 일하는 것이었습니다. 제아무리 더러운 일이라 하더라도.",
+            58,
+            20000,
+            81,
+            HealthType.NORMAL,
+            WeaponInformation.WEAPON_KONGOU,
+            WeaponInformation.WEAPON_STINGER,
+            null,
+            null,
+            null,
+            "위험을 감수할 수는 없었어. 가끔으 같은 편일지라도 총을 적의 옆구리에 쑤시고 보는게 더 안전할 때가 있거든. / 그래. 나도 봤어. 이런 게 처음은 아니야. 몇 번의 암살 시도에서도 살아남으셨어. 그래도... 우리의... 대통령이시니까"
     );
 
     private String name;
@@ -31,6 +50,9 @@ public enum CharacterInformation {
     private HealthType health;
     private WeaponInformation primary;
     private WeaponInformation secondary;
+    private EquipmentInformation firstEquipment;
+    private EquipmentInformation secondEquipment;
+    private EquipmentInformation thirdEquipment;
     private String accentInstruction;
     CharacterInformation(String cName,
                          String cBackground,
@@ -40,6 +62,9 @@ public enum CharacterInformation {
                          HealthType cHealthType,
                          WeaponInformation wPrimary,
                          WeaponInformation wSecondary,
+                         EquipmentInformation firstEquipment,
+                         EquipmentInformation secondEquipment,
+                         EquipmentInformation thirdEquipment,
                          String accentInstruction) {
         this.name = cName;
         this.background = cBackground;
@@ -49,6 +74,9 @@ public enum CharacterInformation {
         this.health = cHealthType;
         this.primary = wPrimary;
         this.secondary = wSecondary;
+        this.firstEquipment = firstEquipment;
+        this.secondEquipment = secondEquipment;
+        this.thirdEquipment = thirdEquipment;
         this.accentInstruction = accentInstruction;
     }
 
@@ -78,5 +106,8 @@ public enum CharacterInformation {
     }
     public String getAccentInstruction() {
         return accentInstruction;
+    }
+    public EquipmentInformation[] getEquipments() {
+        return new EquipmentInformation[]{firstEquipment, secondEquipment, thirdEquipment};
     }
 }
