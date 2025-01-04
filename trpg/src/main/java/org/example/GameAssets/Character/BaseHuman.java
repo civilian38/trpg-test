@@ -21,7 +21,7 @@ public class BaseHuman {
         this.equipments = new CharacterEquipmentSlot();
         this.primaryWeapon = new Weapon(info.getPrimary());
         this.secondaryWeapon = new Weapon(info.getSecondary());
-        this.health = HealthType.NORMAL;
+        this.health = info.getHealth();
         accentInstruction = info.getAccentInstruction();
     }
 

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        BaseHuman Lucy = new BaseHuman(CharacterInformation.Lucy);
+        BaseHuman Lucy = new BaseHuman(CharacterInformation.LUCY_INFO);
         System.out.println("==========================");
         System.out.println(Lucy.showStatusForPlayer());
         System.out.println("==========================");
