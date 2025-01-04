@@ -3,11 +3,14 @@ package org.example.LLMResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.example.GameAssets.Character.BaseHuman;
+import org.example.GameAssets.GameHandler.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ResponseGenerator {
-    private HttpURLConnection createConnection() throws IOException {
+    private static HttpURLConnection createConnection() throws IOException {
         URL url = new URL(ResponseSettings.API_URL.getValue());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -18,14 +21,14 @@ public class ResponseGenerator {
         return connection;
     }
 
-    private void sendRequest(HttpURLConnection connection, String context) throws IOException {
+    private static void sendRequest(HttpURLConnection connection, String context) throws IOException {
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = context.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
     }
 
-    private String parseResponse(HttpURLConnection connection) throws IOException {
+    private static String parseResponse(HttpURLConnection connection) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
             String responseString = br.lines().reduce("", String::concat);
             JSONObject response = new JSONObject(responseString);
@@ -36,7 +39,7 @@ public class ResponseGenerator {
         }
     }
 
-    private String buildTestContext() {
+    public static String buildTestContext() {
         JSONObject context = new JSONObject();
         context.put("model", ResponseSettings.MODEL_NAME.getValue());
         context.put("max_tokens", 150);
@@ -53,7 +56,7 @@ public class ResponseGenerator {
         return context.toString();
     }
 
-    private String buildTestSystemMessage() {
+    private static String buildTestSystemMessage() {
         /*
             JSONArray systemMessages = new JSONArray();
             JSONObject systemMessage = new JSONObject();
@@ -65,9 +68,49 @@ public class ResponseGenerator {
         return "당신은 이제부터 한 소녀를 연기합니다. 당신은 봉사활동에 참여하고 있습니다. 다만 원해서 참여한건 아니고, 경범죄를 저지르고 사회봉사활동 처분을 받았네요. 딱히 열심히 하고싶은 마음은 없습니다.";
     }
 
-    public String ResponseTest() {
+    public static String ResponseTest() {
         try {
             String context = buildTestContext();
+            HttpURLConnection connection = createConnection();
+            sendRequest(connection, context);
+            return parseResponse(connection);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String buildCharacterSystemMessage(BaseHuman speaker, BaseHuman player) {
+        StringBuilder context = new StringBuilder();
+        context.append(ResponseSettings.INITIAL_INSTRUCTION.getValue()).append('\n');
+        context.append(ResponseSettings.GAME_BACKGROUND.getValue()).append('\n');
+        context.append(ResponseSettings.CHARACTER_SCRIPT_DESCRIPTION.getValue()).append('\n');
+        context.append(speaker.showStatus()).append('\n');
+        context.append(ResponseSettings.CHARACTER_SCRIPT_USER_DESCRIPTION.getValue()).append('\n');
+        context.append(player.showStatus()).append('\n');
+        return context.toString();
+    }
+
+    public static String buildCharacterContext(BaseHuman speaker, BaseHuman player, String user_input) throws IOException {
+        JSONObject context = new JSONObject();
+        context.put("model", ResponseSettings.MODEL_NAME.getValue());
+        context.put("max_tokens", 250);
+        context.put("system", buildCharacterSystemMessage(speaker, player));
+        context.put("temperature", 0.2);
+
+        JSONArray messages = new JSONArray();
+        JSONObject singleMessage = new JSONObject();
+        singleMessage.put("role", "user");
+        singleMessage.put("content", user_input);
+        messages.put(singleMessage);
+
+        context.put("messages", messages);
+        return context.toString();
+    }
+
+    static public String characterResponseGenerator(BaseHuman speaker, BaseHuman player, String user_input) throws IOException {
+        try {
+            String context = buildCharacterContext(speaker, player, user_input);
             HttpURLConnection connection = createConnection();
             sendRequest(connection, context);
             return parseResponse(connection);
