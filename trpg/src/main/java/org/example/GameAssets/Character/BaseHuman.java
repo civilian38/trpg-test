@@ -1,6 +1,7 @@
 package org.example.GameAssets.Character;
 
 public class BaseHuman {
+    final int characterId;
     final String name;
     final String background;
     final String accentInstruction;
@@ -12,7 +13,8 @@ public class BaseHuman {
     Weapon secondaryWeapon;
     HealthType health;
 
-    public BaseHuman(CharacterInformation info){
+    public BaseHuman(CharacterInformation info, int characterId){
+        this.characterId = characterId;
         this.name = info.getName();
         this.background = info.getBackground();
         this.age = info.getAge();
@@ -26,6 +28,7 @@ public class BaseHuman {
     }
 
     public BaseHuman(String cName, int cAge, String cBackground){
+        this.characterId = CharacterSettings.PlayerId;
         this.name = cName;
         this.background = cBackground;
         this.age = cAge;
