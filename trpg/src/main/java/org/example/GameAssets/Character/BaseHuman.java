@@ -1,6 +1,5 @@
 package org.example.GameAssets.Character;
 
-
 public class BaseHuman {
     final int characterId;
     final String name;
@@ -60,7 +59,7 @@ public class BaseHuman {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("이름: ").append(name).append("/").append(
                 "건강상태: ").append(health.getMessage()).append("/").append(
-                "나이: ").append(age).append("/").append(
+                age).append("세/").append(
                 (gender == GenderType.MALE) ? "남성/" : "여성/").append(
                 "자금: ").append(credits).append("/").append(
                 "명성: ").append(getReputationStatus()).append("\n");
