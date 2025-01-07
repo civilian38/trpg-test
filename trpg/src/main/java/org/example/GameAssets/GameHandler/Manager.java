@@ -10,22 +10,35 @@ public class Manager {
     public HashMap<Integer, BaseHuman> characterMap = new HashMap<>();
     Player player;
     public Manager(){
-        int id = 1;
         for(CharacterInformation ci: CharacterInformation.values()){
-            characterMap.put(id, new BaseHuman(ci, id));
-            id++;
+            int id = ci.getId();
+            characterMap.put(id, new BaseHuman(ci));
         }
     }
 
     public void initPlayer() {
         BaseHuman player = Player.generator();
         characterMap.put(CharacterSettings.PlayerId, player);
+
+        // no more characters
+        for(BaseHuman bh: characterMap.values()){
+            bh.initRelationship(characterMap.keySet());
+        }
     }
 
     public String getAllCharacterStatus() {
         StringBuilder sb = new StringBuilder();
         for(BaseHuman bh: characterMap.values()){
             sb.append(bh.showStatusForPlayer()).append("\n");
+            sb.append("==========================").append("\n");
+        }
+        return sb.toString();
+    }
+
+    public String getAllCharacterStatusForTest() {
+        StringBuilder sb = new StringBuilder();
+        for(BaseHuman bh: characterMap.values()){
+            sb.append(bh.showStatusForTest(characterMap)).append("\n");
             sb.append("==========================").append("\n");
         }
         return sb.toString();

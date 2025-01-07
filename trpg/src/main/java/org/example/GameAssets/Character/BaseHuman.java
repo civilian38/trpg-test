@@ -1,5 +1,9 @@
 package org.example.GameAssets.Character;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 public class BaseHuman {
     final int characterId;
     final String name;
@@ -9,13 +13,14 @@ public class BaseHuman {
     int age;
     int credits;
     int reputation;
+    HashMap<Integer, CharacterRelationship> relationships;  // key: characterID, value: this character's opinion for ID.
     CharacterEquipmentSlot equipments;
     Weapon primaryWeapon;
     Weapon secondaryWeapon;
     HealthType health;
 
-    public BaseHuman(CharacterInformation info, int characterId){   // npc constructor
-        this.characterId = characterId;
+    public BaseHuman(CharacterInformation info){   // npc constructor
+        this.characterId = info.getId();
         this.name = info.getName();
         this.background = info.getBackground();
         this.age = info.getAge();
@@ -27,6 +32,10 @@ public class BaseHuman {
         this.secondaryWeapon = new Weapon(info.getSecondary());
         this.health = info.getHealth();
         accentInstruction = info.getAccentInstruction();
+        relationships = new HashMap<>();
+        for(CharacterRelationship relationship: info.getRelationships()){
+            this.relationships.put(relationship.getTargetID(), relationship);
+        }
     }
 
     public BaseHuman(String cName, int cAge, boolean isMale, String cBackground){   // player constructor
@@ -42,6 +51,7 @@ public class BaseHuman {
         this.secondaryWeapon = new Weapon(null);
         this.health = HealthType.NORMAL;
         accentInstruction = "";
+        this.relationships = new HashMap<>();
     }
 
     public String getReputationStatus() {
@@ -53,6 +63,18 @@ public class BaseHuman {
                (reputation < 80) ? "베테랑":
                (reputation < 100) ? "거물":
                "나이트 시티의 전설";
+    }
+
+    public void initRelationship(Set<Integer> characters){
+        for(int id: characters){
+            if(!relationships.containsKey(id) && id != characterId){
+                relationships.put(id, new CharacterRelationship(id));
+            }
+        }
+    }
+
+    public String getName(){
+        return name;
     }
 
     public String showStatus(){
@@ -69,7 +91,6 @@ public class BaseHuman {
             stringBuilder.append("주무장: ").append(primaryWeapon.getInfo()).append("\n");
             if(!secondaryWeapon.isNull){
                 stringBuilder.append("부무장: ").append(secondaryWeapon.getInfo()).append("\n");
-
             }
         }
         stringBuilder.append(equipments.equipmentsDescription());
@@ -100,5 +121,18 @@ public class BaseHuman {
         stringBuilder.append("- - - - - - - - - - - - - - - -\n");
         stringBuilder.append(background);
         return stringBuilder.toString();
+    }
+
+    public String showStatusForTest(HashMap<Integer, BaseHuman> characterData){
+        String baseStatus = showStatusForPlayer();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(CharacterRelationship relation: relationships.values()){
+            if(relation.isKnowingTarget()){
+                stringBuilder.append(characterData.get(relation.getTargetID()).getName()).append(" : ").append(relation.showData()).append('\n');
+            } else {
+                stringBuilder.append(characterData.get(relation.getTargetID()).getName()).append(" : ").append("모름").append('\n');
+            }
+        }
+        return baseStatus + '\n' + stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("\n")).toString();
     }
 }
