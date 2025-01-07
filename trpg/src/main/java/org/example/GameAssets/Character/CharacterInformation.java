@@ -7,6 +7,7 @@ public enum CharacterInformation {
             20,
             2000,
             51,
+            GenderType.FEMALE,
             HealthType.NORMAL,
             WeaponInformation.WEAPON_LEXINGTON,
             null,
@@ -20,6 +21,7 @@ public enum CharacterInformation {
             32,
             15000,
             60,
+            GenderType.FEMALE,
             HealthType.NORMAL,
             WeaponInformation.WEAPON_HER_MAJESTY,
             null,
@@ -33,6 +35,7 @@ public enum CharacterInformation {
             58,
             20000,
             81,
+            GenderType.MALE,
             HealthType.NORMAL,
             WeaponInformation.WEAPON_KONGOU,
             WeaponInformation.WEAPON_STINGER,
@@ -47,6 +50,7 @@ public enum CharacterInformation {
     private int age;
     private int initialCredits;
     private int reputation;
+    private GenderType gender;
     private HealthType health;
     private WeaponInformation primary;
     private WeaponInformation secondary;
@@ -59,6 +63,7 @@ public enum CharacterInformation {
                          int cAge,
                          int cCredits,
                          int cReputation,
+                         GenderType cGender,
                          HealthType cHealthType,
                          WeaponInformation wPrimary,
                          WeaponInformation wSecondary,
@@ -71,6 +76,7 @@ public enum CharacterInformation {
         this.age = cAge;
         this.initialCredits = cCredits;
         this.reputation = cReputation;
+        this.gender = cGender;
         this.health = cHealthType;
         this.primary = wPrimary;
         this.secondary = wSecondary;
@@ -94,6 +100,9 @@ public enum CharacterInformation {
     }
     public int getReputation() {
         return reputation;
+    }
+    public GenderType getGender() {
+        return gender;
     }
     public WeaponInformation getPrimary() {
         return primary;

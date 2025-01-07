@@ -1,10 +1,12 @@
 package org.example.GameAssets.Character;
 
+
 public class BaseHuman {
     final int characterId;
     final String name;
     final String background;
     final String accentInstruction;
+    final GenderType gender;
     int age;
     int credits;
     int reputation;
@@ -20,6 +22,7 @@ public class BaseHuman {
         this.age = info.getAge();
         this.credits = info.getInitialCredits();
         this.reputation = info.getReputation();
+        this.gender = info.getGender();
         this.equipments = new CharacterEquipmentSlot(info.getEquipments());
         this.primaryWeapon = new Weapon(info.getPrimary());
         this.secondaryWeapon = new Weapon(info.getSecondary());
@@ -27,13 +30,14 @@ public class BaseHuman {
         accentInstruction = info.getAccentInstruction();
     }
 
-    public BaseHuman(String cName, int cAge, String cBackground){   // player constructor
+    public BaseHuman(String cName, int cAge, boolean isMale, String cBackground){   // player constructor
         this.characterId = CharacterSettings.PlayerId;
         this.name = cName;
         this.background = cBackground;
         this.age = cAge;
         this.credits = 0;
         this.reputation = 0;
+        this.gender = (isMale) ? GenderType.MALE : GenderType.FEMALE;
         this.equipments = new CharacterEquipmentSlot(new EquipmentInformation[]{null, null, null});
         this.primaryWeapon = new Weapon(null);
         this.secondaryWeapon = new Weapon(null);
@@ -57,6 +61,7 @@ public class BaseHuman {
         stringBuilder.append("이름: ").append(name).append("/").append(
                 "건강상태: ").append(health.getMessage()).append("/").append(
                 "나이: ").append(age).append("/").append(
+                (gender == GenderType.MALE) ? "남성/" : "여성/").append(
                 "자금: ").append(credits).append("/").append(
                 "명성: ").append(getReputationStatus()).append("\n");
         if(primaryWeapon.isNull){
@@ -78,9 +83,9 @@ public class BaseHuman {
 
     public String showStatusForPlayer(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("이름: ").append(name).append("\n");
-        stringBuilder.append("건강상태: ").append(health.getMessage()).append("\t | \t").append("" +
-                "나이: ").append(age).append("\t | \t").append(
+        stringBuilder.append("이름: ").append(name).append("\t | \t").append(
+                age).append("세 (").append((gender == GenderType.MALE) ? "남성)" : "여성)").append("\n");
+        stringBuilder.append("건강상태: ").append(health.getMessage()).append("\t | \t").append(
                 "자금: ").append(credits).append("\t | \t").append(
                 "명성: ").append(getReputationStatus()).append("\n");
         if(primaryWeapon.isNull){
